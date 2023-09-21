@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pagination</title>
+        <style>
+            /* Pagination styles */
+            .pagination {
+                display: flex;
+                justify-content: center;
+                list-style: none;
+                margin-top: 500px;
+                padding: 0;
+            }
+            
+            .pagination li {
+                margin: 0 5px;
+            }
+            
+            .pagination a {
+                text-decoration: none;
+                padding: 5px 10px;
+                border: 1px solid #ccc;
+                background-color: #fff;
+                color: #3f13e0;
+            }
+            
+            .pagination a:hover {
+                background-color: #605d5d;
+                color: #e5e2e2f3;
+            }
+            
+            .pagination .active {
+                background-color: #333;
+                color: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="data-container">
+
+        </div>
+        <div id="pagination-container">
+
+        </div>
+        <div id="current-page-text">
+
+        </div>
+        <script>
+
+            const data = [
+            {
+                "id": "1",
+                "name": "Lura Senger",
+                "email": "Xander_Collier@yahoo.com"
+            },
+            {
+                "id": "2",
+                "name": "Wilburn Weber",
+                "email": "Bennett_Kreiger11@yahoo.com"
+            },
+            {
+                "id": "3",
+                "name": "Tyrique Hahn",
+                "email": "Juston.Altenwerth@yahoo.com"
+            },
+            {
+                "id": "4",
+                "name": "Lenny Bailey",
+                "email": "Guiseppe_Hegmann@yahoo.com"
+            },
+            {
+                "id": "5",
+                "name": "Vladimir Keeling",
+                "email": "Louisa_Walsh18@hotmail.com"
+            },
+            {
+                "id": "6",
+                "name": "Kellie Crona",
+                "email": "Chandler_Abernathy@yahoo.com"
+            },
+            {
+                "id": "7",
+                "name": "Carolina White",
+                "email": "Royal50@hotmail.com"
+            },
+            {
+                "id": "8",
+                "name": "Alfredo Conn",
+                "email": "Clarabelle34@hotmail.com"
+            },
+            {
+                "id": "9",
+                "name": "Stan Shanahan",
+                "email": "Lamar.McClure@hotmail.com"
+            },
+            {
+                "id": "10",
+                "name": "Marvin Fay",
+                "email": "Osbaldo58@hotmail.com"
+            }
+        ];
+            const itemsPerPage = 1;
+            let currentPage = 1;
+    
+            function displayData(page) {
+                const dataContainer = document.getElementById("data-container");
+                dataContainer.innerHTML = "";
+    
+                const startIndex = (page - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const paginatedData = data.slice(startIndex, endIndex);
+    
+                paginatedData.forEach(item => {
+                    const itemText = document.createElement("div");
+                    itemText.textContent = `${item.id}: ${item.name} - ${item.email}`;
+                    dataContainer.appendChild(itemText);
+                });
+    
+                updatePagination(page);
+            }
+    
+            function updatePagination(page) {
+                currentPage = page;
+                const totalPages = Math.ceil(data.length / itemsPerPage);
+                const paginationContainer = document.getElementById("pagination-container");
+                const currentPageText = document.getElementById("current-page-text");
+    
+                const pagination = document.createElement("ul");
+                pagination.classList.add("pagination");
+    
+                const firstPageLink = document.createElement("a");
+                firstPageLink.href = "#";
+                firstPageLink.textContent = "First";
+                firstPageLink.addEventListener("click", () => handlePageClick(1));
+                const firstListItem = document.createElement("li");
+                firstListItem.appendChild(firstPageLink);
+                pagination.appendChild(firstListItem);
+    
+                const previousPageLink = document.createElement("a");
+                previousPageLink.href = "#";
+                previousPageLink.textContent = "Previous";
+                previousPageLink.addEventListener("click", () => handlePageClick(currentPage - 1));
+                const previousListItem = document.createElement("li");
+                previousListItem.appendChild(previousPageLink);
+                pagination.appendChild(previousListItem);
+    
+                for (let i = 1; i <= totalPages && i <= 10; i++) {
+                    const pageLink = document.createElement("a");
+                    pageLink.href = "#";
+                    pageLink.textContent = i;
+                    pageLink.addEventListener("click", () => handlePageClick(i));
+                    if (i === currentPage) {
+                        pageLink.classList.add("active");
+                    }
+                    const listItem = document.createElement("li");
+                    listItem.appendChild(pageLink);
+                    pagination.appendChild(listItem);
+                }
+    
+                paginationContainer.innerHTML = "";
+                paginationContainer.appendChild(pagination);
+    
+                currentPageText.textContent = `Change ${currentPage}`;
+            }
+    
+            function handlePageClick(page) {
+                displayData(page);
+            }
+    
+            displayData(1);
+        </script>
+    </body>
+    </html>
+    
